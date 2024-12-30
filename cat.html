@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Running Cat Animation</title>
+    <title>Fish Pond Animation</title>
     <style>
         body {
             margin: 0;
@@ -12,61 +12,76 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f0f0f0;
+            background-color: #87CEEB; /* 浅蓝色背景模拟水 */
             overflow: hidden;
             position: relative;
         }
-        .cat {
-            width: 100px;
-            height: 100px; /* 调整高度以适应图片 */
+        .pond {
+            width: 80%;
+            height: 80%;
+            border-radius: 50%;
+            background-color: #ADD8E6; /* 更深的蓝色背景模拟池塘 */
+            position: relative;
+            overflow: hidden;
+        }
+        .fish {
+            width: 50px;
+            height: 50px;
             position: absolute;
-            background-image: url('cat.png'); /* 使用你的小猫图片 */
+            background-image: url('fish.png'); /* 使用你的小鱼图片 */
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            animation: run 5s linear infinite, jump 1s ease-in-out infinite;
-        }
-
-        @keyframes run {
-            0% {
-                transform: translateX(0);
-            }
-            100% {
-                transform: translateX(100vw);
-            }
-        }
-
-        @keyframes jump {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-50px);
-            }
-        }
-
-        .obstacle {
-            width: 50px;
-            height: 100px;
-            background-color: #8B4513;
-            position: absolute;
-            right: 0;
-            bottom: 0;
-            animation: moveObstacle 5s linear infinite;
-        }
-
-        @keyframes moveObstacle {
-            0% {
-                right: -50px;
-            }
-            100% {
-                right: 100vw;
-            }
         }
     </style>
 </head>
 <body>
-    <div class="cat running-cat"></div>
-    <div class="obstacle"></div>
+    <div class="pond">
+        <div class="fish" id="fish"></div>
+    </div>
+
+    <script>
+        const fish = document.getElementById('fish');
+        const pond = document.querySelector('.pond');
+        const pondWidth = pond.clientWidth;
+        const pondHeight = pond.clientHeight;
+        const fishWidth = fish.clientWidth;
+        const fishHeight = fish.clientHeight;
+
+        let x = Math.random() * (pondWidth - fishWidth);
+        let y = Math.random() * (pondHeight - fishHeight);
+        let dx = Math.random() * 2 - 1; // 随机水平速度
+        let dy = Math.random() * 2 - 1; // 随机垂直速度
+
+        fish.style.left = `${x}px`;
+        fish.style.top = `${y}px`;
+
+        function animateFish() {
+            x += dx;
+            y += dy;
+
+            // 检测边界并掉头
+            if (x <= 0) {
+                dx = -dx;
+                fish.style.transform = 'scaleX(-1)'; // 翻转图片
+            } else if (x >= pondWidth - fishWidth) {
+                dx = -dx;
+                fish.style.transform = 'scaleX(1)'; // 恢复图片
+            }
+
+            if (y <= 0) {
+                dy = -dy;
+            } else if (y >= pondHeight - fishHeight) {
+                dy = -dy;
+            }
+
+            fish.style.left = `${x}px`;
+            fish.style.top = `${y}px`;
+
+            requestAnimationFrame(animateFish);
+        }
+
+        animateFish();
+    </script>
 </body>
 </html>
