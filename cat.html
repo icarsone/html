@@ -13,33 +13,18 @@
             align-items: center;
             height: 100vh;
             background-color: #f0f0f0;
+            overflow: hidden;
+            position: relative;
         }
         .cat {
             width: 100px;
-            height: 50px;
-            position: relative;
-            background-color: #ffcc00;
-            border-radius: 20px;
-        }
-        .cat::before {
-            content: '';
+            height: 100px; /* 调整高度以适应图片 */
             position: absolute;
-            top: 10px;
-            left: 10px;
-            width: 20px;
-            height: 10px;
-            background-color: #000;
-            border-radius: 50%;
-        }
-        .cat::after {
-            content: '';
-            position: absolute;
-            top: 10px;
-            left: 70px;
-            width: 20px;
-            height: 10px;
-            background-color: #000;
-            border-radius: 50%;
+            background-image: url('cat.png'); /* 使用你的小猫图片 */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            animation: run 5s linear infinite, jump 1s ease-in-out infinite;
         }
 
         @keyframes run {
@@ -51,12 +36,37 @@
             }
         }
 
-        .running-cat {
-            animation: run 5s linear infinite;
+        @keyframes jump {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-50px);
+            }
+        }
+
+        .obstacle {
+            width: 50px;
+            height: 100px;
+            background-color: #8B4513;
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            animation: moveObstacle 5s linear infinite;
+        }
+
+        @keyframes moveObstacle {
+            0% {
+                right: -50px;
+            }
+            100% {
+                right: 100vw;
+            }
         }
     </style>
 </head>
 <body>
     <div class="cat running-cat"></div>
+    <div class="obstacle"></div>
 </body>
 </html>
